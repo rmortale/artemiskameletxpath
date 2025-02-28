@@ -1,0 +1,16 @@
+- route:
+    from:
+      parameters:
+        brokerURL: '{{artemis_url}}'
+        destinationName: '{{workday_source_queue}}'
+        password: '{{artemis_password}}'
+        username: '{{artemis_user}}'
+      steps:
+      - setHeader:
+          name: CamelAwsS3Key
+          xpath:
+            expression: /company/name
+            resultType: java.lang.String
+      - log:
+          message: ${headers}
+      uri: kamelet:jms-pooled-apache-artemis-source
